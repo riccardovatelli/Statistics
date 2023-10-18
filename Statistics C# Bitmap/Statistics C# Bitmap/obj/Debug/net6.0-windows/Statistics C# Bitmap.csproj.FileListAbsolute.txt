@@ -1,0 +1,16 @@
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\bin\Debug\net6.0-windows\Statistics C# Bitmap.exe
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\bin\Debug\net6.0-windows\Statistics C# Bitmap.deps.json
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\bin\Debug\net6.0-windows\Statistics C# Bitmap.runtimeconfig.json
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\bin\Debug\net6.0-windows\Statistics C# Bitmap.dll
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\bin\Debug\net6.0-windows\Statistics C# Bitmap.pdb
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics_C__Bitmap.Form1.resources
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.csproj.GenerateResource.cache
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.AssemblyInfoInputs.cache
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.AssemblyInfo.cs
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.csproj.CoreCompileInputs.cache
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.dll
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\refint\Statistics C# Bitmap.dll
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.pdb
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\Statistics C# Bitmap.genruntimeconfig.cache
+C:\Users\Riccardo\source\repos\Statistics C# Bitmap\Statistics C# Bitmap\obj\Debug\net6.0-windows\ref\Statistics C# Bitmap.dll

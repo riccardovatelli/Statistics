@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Frequency Distribution on a Survey</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .frequency-table {
+            margin-top: 20px;
+        }
+
+        h3 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload .xlsx file</h1>
+    <input type="file" id="fileInput" accept=".xlsx">
+    <div id="FreqDistribOutput"></div>
+    <div class="frequency-table" id="AmbitiousFreq"></div>
+    <div class="frequency-table" id="WeightFreq"></div>
+    <div class="frequency-table" id="RoleFreq"></div>
+    <div class="frequency-table" id="bivariateDistrib"></div>
+    <div class="frequency-table" id="trivariateDistrib"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+
+    <script>
+
+        "use strict";
+
+        // loading, converte .xlsx a JSON, chiama:
+        // funzione che crea tabella dei risultati
+        // funzione che calcola frequency distribution (absolute + relative + percentage)
+        // funzione che bivariate distribution (absolute + relative + percentage)
+        // funzione che multivariate (trivariate) distribution (absolute + relative + percentage)
+        var ExcelToJSON = function () {
+            this.parseExcel = function (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    workbook.SheetNames.forEach(function (sheetName) {
+                        var sheetToRowArray = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        createTable(sheetToRowArray);
+                        // Ambitious (0-5) quantitative discrete variable
+                        AllFrequencies(sheetToRowArray, "Ambitious (0-5)", "AmbitiousFreq");    
+                        // weight quantitative continuous variable
+                        AllFrequencies(sheetToRowArray, "weight", "WeightFreq");
+                        // Team leader/player qualitative variable
+                        AllFrequencies(sheetToRowArray, "Team leader or Team player ?", "RoleFreq");
+                        // bivariate distribution tra Ambitious e weight (o qualsiasi altra coppia di variabili fornite in input)
+                        AllJointBivariateDistribs(sheetToRowArray, "Ambitious (0-5)", "weight", "bivariateDistrib");
+                        // trivariate distribution tra Ambitious, weight e Team leader/player (o qualsiasi altra tripla fornita in input)
+                        AllJointMultivariateDistribs(sheetToRowArray, "Ambitious (0-5)", "weight", "Team leader or Team player ?", "trivariateDistrib");
+                    });
+                };
+                reader.onerror = function (ex) {
+                    console.log(ex);
+                };
+                reader.readAsBinaryString(file);
+            };
+        };
+
+        // generica funzione che crea una generica tabella (table + header + body)
+        function createTable(csv) {
+            var table = document.createElement('table');
+            var tableHead = table.createTHead();
+            var tableBody = table.createTBody();
+
+            // riempie riga header della nuova tabella con header .csv (csv[0])
+            var headerRow = tableHead.insertRow(0);
+            for (var h in csv[0]) {
+                var th = document.createElement('th');
+                th.innerHTML = h;
+                headerRow.appendChild(th);
+            }
+
+            // crea e riempie righe e celle della nuova tabella con valori nelle celle .csv
+            csv.forEach(function (row) {
+                var newRow = tableBody.insertRow();
+                for (var c in row) {
+                    var cell = newRow.insertCell();
+                    cell.innerHTML = row[c];
+                }
+            });
+            document.getElementById('FreqDistribOutput').innerHTML = '';
+            document.getElementById('FreqDistribOutput').appendChild(table);
+        }
+
+
+
+
+
+        // generica funzione efficiente di calcolo della frequency distribution:
+        // scorre file.csv (data), conta occorrenze della variabile in input (specifiedVar), restituisce frequenza
+        function AllFrequencies(csv, specifiedVar, output) {
+            var totRows = csv.length;
+            var freqs = {};
+
+            // counter occorrenze: scorre righe .csv rispetto alla variabile in input, incrementa conteggio variabile nel dizionario frequenze
+            csv.forEach(function (row) {
+                var val = row[specifiedVar];
+                if (val in freqs) {
+                    freqs[val]++;
+                } else {
+                    freqs[val] = 1;
+                }
+            });
+
+            // mostra in tabella variabile e conseguente frequenza assoluta, relativa e percentuale
+            var res = '<h3> Var: ' + specifiedVar + '</h3>';
+            res += '<table>';
+            res += '<tr><th> Val </th><th> Abs Freq </th><th> Rel Freq </th><th> Pct </th></tr>';
+
+            for (var v in freqs) {
+                var absFreq = freqs[v];
+                var relFreq = absFreq / totRows;
+                var pct = (relFreq * 100).toFixed(3);
+                res += '<tr><td>' + v + '</td><td>' + absFreq + '</td><td>' + relFreq.toFixed(3) + '</td><td>' + pct + '%</td></tr>';
+            }
+            res += '</table>';
+            document.getElementById(output).innerHTML = res;
+        }
+
+
+
+
+        // analoga a funzione AllFrequencies, ma in questo caso è considerata una coppia di variabili (x, y)
+        function AllJointBivariateDistribs(csv, x, y, output) {
+            var jointBi = {};
+
+            csv.forEach(function (row) {
+                var xVal = row[x];
+                var yVal = row[y];
+                var couple = '( ' + xVal + ', ' + yVal + ') ';
+
+                if (jointBi[couple]) {
+                    jointBi[couple]++;
+                } else {
+                    jointBi[couple] = 1;
+                }
+            });
+
+            var res = '<h3>Joint Bivariate Distribution: (' + x + ', ' + y + ') </h3>';
+            res += '<table>';
+            res += '<tr><th>Val</th><th>Joint Abs Freq</th><th>Joint Rel Freq</th><th>Joint Pct</th></tr>';
+
+            for (var c in jointBi) {
+                var absFreq = jointBi[c];
+                var relFreq = absFreq / csv.length;
+                var pct = (relFreq * 100).toFixed(3);
+                res += '<tr><td>' + c + '</td><td>' + absFreq + '</td><td>' + relFreq.toFixed(2) + '</td><td>' + pct + '%</td></tr>';
+            }
+            res += '</table>';
+            document.getElementById(output).innerHTML = res;
+        }
+
+        // analoga a funzione AllJointBivariateDistribs, ma considera Trivariate Distribution
+        function AllJointMultivariateDistribs(csv, x, y, z, output) {
+            var jointMulti = {};
+
+            csv.forEach(function (row) {
+                var xVal = row[x];
+                var yVal = row[y];
+                var zVal = row[z];
+                var set = '( ' + xVal + ', ' + yVal + ', ' + zVal + ') ';
+
+                if (jointMulti[set]) {
+                    jointMulti[set]++;
+                } else {
+                    jointMulti[set] = 1;
+                }
+            });
+
+            var res = '<h3>Joint Multivariate Distribution: (' + x + ', ' + y + ', ' + z + ') </h3>';
+            res += '<table>';
+            res += '<tr><th>Val</th><th>Joint Abs Freq</th><th>Joint Rel Freq</th><th>Joint Pct</th></tr>';
+
+            for (var t in jointMulti) {
+                var absFreq = jointMulti[t];
+                var relFreq = absFreq / csv.length;
+                var pct = (relFreq * 100).toFixed(3);
+                res += '<tr><td>' + t + '</td><td>' + absFreq + '</td><td>' + relFreq.toFixed(2) + '</td><td>' + pct + '%</td></tr>';
+            }
+            res += '</table>';
+            document.getElementById(output).innerHTML = res;
+        }
+
+        // cambia file
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var excelParser = new ExcelToJSON();
+                excelParser.parseExcel(file);
+            }
+        });
+    </script>
+</body>
+</html>

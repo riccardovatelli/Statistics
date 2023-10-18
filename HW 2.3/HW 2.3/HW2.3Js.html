@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Variates and Class Intervals</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Random Variates and Class Intervals</h1>
+
+    <!-- Form in cui inserire i valori -->
+    <label for="n">Insert random variates:</label>
+    <input type="number" id="n" value="500">
+    <label for="k">Insert class intervals:</label>
+    <input type="number" id="k" value="5">
+    <button onclick="RandomVariatesIntervalsHistogram()">Generate</button>
+    <div id="res">
+    </div>
+    <canvas id="chart" width="300" height="100"></canvas>
+
+    <script>
+
+        // Va aggiornata la pagina se si vuole produrre un nuovo istogramma con nuovi valori (n, k)
+        function RandomVariatesIntervalsHistogram() {
+
+            // prende random variates e intervalli forniti in input dall'utente
+            const chartLabels = [];
+            const n = parseFloat(document.getElementById("n").value);
+            const k = parseFloat(document.getElementById("k").value);
+            // Contatore per occorrenze negli intervalli e per successivo plotting dell'istogramma
+            const histogramOcc = new Array(k).fill(0);
+
+            // Prende numero random (r), individua indice dell'intervallo e incrementa occorrenze dell'intervallo
+            for (let i = 0; i < n; i++) {
+                const r = Math.random();
+                const idx = Math.floor(r*k);
+                histogramOcc[idx]++; 
+            }
+
+            const res = document.getElementById("res");
+            res.innerHTML = "<h3>Intervalli e occorrenze</h3>";
+
+            // Prende estremi degli intervalli, li aggiunge alle etichette dell'istogramma e li stampa
+            for (let i = 0; i < k; i++) {
+
+                const first = (i / k);
+                const last = ((i + 1) / k);
+                chartLabels.push(`[${i / k}, ${(i + 1) / k})`);
+
+                const c = histogramOcc[i];
+                const display = `[${first}, ${last}): ${c}<br>`;
+                res.innerHTML += display;
+            }
+
+            const histogram = histogramOcc;
+            const ctx = document.getElementById('chart').getContext('2d');
+
+            // Generico oggetto chart Chart.js
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'FREQUENCY',
+                            data: histogram,
+                            backgroundColor: 'Grey',
+                            borderColor: 'Black',
+                            borderWidth: 2,
+                        },
+                    ],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+        }
+    </script>
+</body>
+</html>

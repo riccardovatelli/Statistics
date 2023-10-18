@@ -1,0 +1,7 @@
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\bin\Debug\HW 2 C# Freq Distrib.exe.config
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\bin\Debug\HW 2 C# Freq Distrib.exe
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\bin\Debug\HW 2 C# Freq Distrib.pdb
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\obj\Debug\HW 2 C# Freq Distrib.csproj.AssemblyReference.cache
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\obj\Debug\HW 2 C# Freq Distrib.csproj.CoreCompileInputs.cache
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\obj\Debug\HW 2 C# Freq Distrib.exe
+C:\Users\Riccardo\source\repos\HW 2 C# Freq Distrib\HW 2 C# Freq Distrib\obj\Debug\HW 2 C# Freq Distrib.pdb
